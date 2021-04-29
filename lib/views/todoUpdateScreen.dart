@@ -9,6 +9,13 @@ class TodoUpdateScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // get passing data
+    int index = Get.arguments;
+    // edit?
+    if (index != null) {
+      _tcTask.text = _todoController.todos[index].title;
+    }
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -37,10 +44,17 @@ class TodoUpdateScreen extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      _todoController.todos.add(Todo(title: _tcTask.text));
+                      // add or edit?
+                      if (index == null) {
+                        //add
+                        _todoController.todos.add(Todo(title: _tcTask.text));
+                      } else {
+                        //edit
+                        _todoController.updateTitle(index, _tcTask.text);
+                      }
                       Get.back();
                     },
-                    child: Text('Add'),
+                    child: Text(index == null ? 'Add' : 'Edit'),
                   ),
                 ],
               ),
